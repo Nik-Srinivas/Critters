@@ -2,11 +2,11 @@
  * CRITTERS Main.java
  * EE422C Project 4 submission by
  * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
+ * Nik Srinivas
+ * ns29374
  * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
+ * Reza Mohideen
+ * rm54783
  * <Student2 5-digit Unique No.>
  * Slip days used: <0>
  * Spring 2020
