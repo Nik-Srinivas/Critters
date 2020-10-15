@@ -4,10 +4,10 @@
  * Replace <...> with your actual data.
  * Nik Srinivas
  * ns29374
- * <Student1 5-digit Unique No.>
+ * 16160
  * Reza Mohideen
  * rm54783
- * <Student2 5-digit Unique No.>
+ * 16160
  * Slip days used: <0>
  * Spring 2020
  */
