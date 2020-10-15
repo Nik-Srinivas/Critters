@@ -61,6 +61,7 @@ public class Main {
      *             to be directed to a String), or nothing.
      */
     public static void main(String[] args) {
+        Critter.displayWorld();
         if (args.length != 0) {
             try {
                 inputFile = args[0];
@@ -97,5 +98,6 @@ public class Main {
 
     private static void commandInterpreter(Scanner kb) {
         //TODO Implement this method
+
     }
 }

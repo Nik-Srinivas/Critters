@@ -97,6 +97,31 @@ public abstract class Critter {
 
     public static void displayWorld() {
         // TODO: Complete this method
+        for (int i = 0; i < Params.WORLD_HEIGHT; i++) {
+            for (int j = 0; j < Params.WORLD_WIDTH + 2; j++) {
+                // top and bottom border
+                if (i == 0 || i == Params.WORLD_HEIGHT - 1) {
+                    // print '+' on corners
+                    if (j == 0 || j == Params.WORLD_WIDTH + 1) {
+                        System.out.print('+');
+                    }
+                    // dashes on top and bottom ONLY
+                    else {
+                        System.out.print('-');
+                    }
+                }
+                // side border
+                else if (j == 0 || j == Params.WORLD_WIDTH + 1) {
+                    System.out.print('|');
+                }
+                // empty spaces in between
+                else {
+                    System.out.print(" ");
+                }
+            }
+            // move to new line
+            System.out.println("");
+        }
     }
 
     /**
