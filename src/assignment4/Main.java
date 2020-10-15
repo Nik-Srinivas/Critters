@@ -98,6 +98,53 @@ public class Main {
 
     private static void commandInterpreter(Scanner kb) {
         //TODO Implement this method
-        Critter.displayWorld();
+
+        System.out.print(" critters> ");
+        String input = kb.nextLine();
+        String[] commands = input.split(" ");
+
+        while (!commands[0].equals("quit")){
+            if (commands[0].equals("show")){
+                if (commands.length == 1){
+                    Critter.displayWorld();
+                }
+                else {
+                    System.out.println(" error processing: " + commands[0]);
+                }
+
+            }
+            else if (commands[0].equals("step")){
+                System.out.println("step");
+                Critter.worldTimeStep();
+            }
+            else if (commands[0].equals("seed")){
+                System.out.println("seed" + commands[1]);
+            }
+            else if (commands[0].equals("create")){
+                System.out.println("create");
+                try {
+                    Critter.createCritter(commands[1]);
+                } catch (InvalidCritterException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (commands[0].equals("stats")){
+                System.out.println("create");
+                //Critter.runStats();
+            }
+            else if (commands[0].equals("clear")){
+                System.out.println("clear");
+                Critter.clearWorld();
+            }
+            else {
+                System.out.println(" invalid command: " + commands[0]); // invalid input
+            }
+
+            System.out.print(" critters> ");
+            input = kb.nextLine();
+            commands = input.split(" ");
+        }
+
+
     }
 }
