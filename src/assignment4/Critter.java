@@ -204,12 +204,23 @@ public abstract class Critter {
 
     public static void displayWorld() {
         // TODO: Complete this method
-        for (int i = 0; i < Params.WORLD_HEIGHT; i++) {
-            for (int j = 0; j < Params.WORLD_WIDTH + 2; j++) {
+
+        int height = Params.WORLD_HEIGHT + 2;
+        int width = Params.WORLD_WIDTH + 2;
+        String[][] world = new String[width][height];
+
+        // add critters
+        for (Critter c : population) {
+            world[c.x_coord+1][c.y_coord+1] = c.toString();
+        }
+
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 // top and bottom border
-                if (i == 0 || i == Params.WORLD_HEIGHT - 1) {
+                if (i == 0 || i == height - 1) {
                     // print '+' on corners
-                    if (j == 0 || j == Params.WORLD_WIDTH + 1) {
+                    if (j == 0 || j == width - 1) {
                         System.out.print('+');
                     }
                     // dashes on top and bottom ONLY
@@ -218,12 +229,12 @@ public abstract class Critter {
                     }
                 }
                 // side border
-                else if (j == 0 || j == Params.WORLD_WIDTH + 1) {
+                else if (j == 0 || j == width - 1) {
                     System.out.print('|');
                 }
-                // empty spaces in between
+                // critters in between
                 else {
-                    System.out.print(" ");
+                    System.out.print(world[j][i]);
                 }
             }
             // move to new line
