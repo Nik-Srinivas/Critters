@@ -83,7 +83,7 @@ public abstract class Critter {
             population.get(population.size()-1).energy = Params.START_ENERGY;
             population.get(population.size()-1).x_coord = Critter.getRandomInt(Params.WORLD_WIDTH);
             population.get(population.size()-1).y_coord = Critter.getRandomInt(Params.WORLD_HEIGHT);
-            population.get(population.size()-1).move_flag = false;
+            population.get(population.size()-1).moveFlag = false;
         }
 
         // Error Handling
