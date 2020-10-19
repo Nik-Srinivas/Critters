@@ -15,11 +15,7 @@
 package assignment4;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /* 
  * See the PDF for descriptions of the methods and fields in this
@@ -222,6 +218,13 @@ public abstract class Critter {
         int height = Params.WORLD_HEIGHT + 2;
         int width = Params.WORLD_WIDTH + 2;
         String[][] world = new String[width][height];
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                world[j][i] = " ";
+            }
+        }
+
 
         // add critters
         for (Critter c : population) {
