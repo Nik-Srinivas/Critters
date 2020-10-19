@@ -152,7 +152,35 @@ public abstract class Critter {
     }
     private static void doEncounters() {
         conflictPhase = true;
+        for (Critter c1 : population) {
+            for (Critter c2 : population) {
+                if ((c1 != c2) && (c1.x_coord == c2.x_coord && c1.y_coord == c2.y_coord)) {
+                    boolean fight1 = c1.fight(c2.toString());
+                    boolean fight2 = c2.fight(c1.toString());
 
+                    if (c1.getEnergy() > 0 && c2.getEnergy() > 0) {
+                        int power1 = 0, power2 = 0;
+                        if (fight1) {
+                            int power1 = getRandomInt(c1.energy);
+                        }
+                        if (fight2) {
+                            int power2 = getRandomInt(c2.getEnergy());
+                        }
+
+                        // c1 wins fight
+                        if (power1 > power2) {
+                            c1.energy += c2.energy / 2;
+                            c2.energy = 0;
+                        }
+                        // c2 wins fight
+                        else {
+                            c2.energy += c1.energy / 2;
+                            c1.energy = 0;
+                        }
+                    }
+                }
+            }
+        }
 
         conflictPhase = false;
     }
