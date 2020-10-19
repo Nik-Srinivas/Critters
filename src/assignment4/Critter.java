@@ -31,6 +31,7 @@ import java.util.Random;
 
 public abstract class Critter {
 
+    // Private Variables
     private int energy = 0;
     private int x_coord;
     private int y_coord;
@@ -45,20 +46,17 @@ public abstract class Critter {
     /* Gets the package name.  This assumes that Critter and its
      * subclasses are all in the same package. */
     private static String myPackage;
-
     static {
         myPackage = Critter.class.getPackage().toString().split(" ")[1];
     }
-
     private static Random rand = new Random();
-
     public static int getRandomInt(int max) {
         return rand.nextInt(max);
     }
-
     public static void setSeed(long new_seed) {
         rand = new Random(new_seed);
     }
+
 
     /**
      * create and initialize a Critter subclass.
@@ -69,8 +67,7 @@ public abstract class Critter {
      * @param critter_class_name
      * @throws InvalidCritterException
      */
-    public static void createCritter(String critter_class_name)
-            throws InvalidCritterException {
+    public static void createCritter(String critter_class_name) throws InvalidCritterException {
         // TODO: Complete this method
         try {
             String critterName = myPackage + "." + critter_class_name; //how to access the individual critter functions given they all are under the same package
@@ -109,8 +106,7 @@ public abstract class Critter {
      * @return List of Critters.
      * @throws InvalidCritterException
      */
-    public static List<Critter> getInstances(String critter_class_name)
-            throws InvalidCritterException {
+    public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
         List<Critter> instances = new ArrayList<>();
         Object critterClass = null;
         try {
@@ -136,6 +132,12 @@ public abstract class Critter {
         population.clear();
     }
 
+    /**
+     * Is 1 in-game "move.
+     * Performs the move and attack if necessary
+     * Cleans up the dead critters post attack
+     * Spawns babies
+     */
     public static void worldTimeStep() {
         // TODO: Complete this method
         for (Critter crit : population){
@@ -163,6 +165,10 @@ public abstract class Critter {
         babies.clear();
     }
 
+    /**
+     * If 2 critters are on the same space after a move, they must "fight" and the critter with the higher energy survives.
+     * This method ensures only 1 critter should exist in each location after a turn.
+     */
     private static void doEncounters() {
         conflictPhase = true;
         for (Critter c1 : population) {
@@ -197,11 +203,19 @@ public abstract class Critter {
 
         conflictPhase = false;
     }
+
+    /**
+     * Uses Params.REFRESH_CLOVER_COUNT to determine how many clovers to generate
+     * @throws InvalidCritterException
+     */
     private static void genClover() throws InvalidCritterException {
         for(int i = 0; i < Params.REFRESH_CLOVER_COUNT; i++)
             createCritter("Clover");
     }
 
+    /**
+     * Creates a 2 dimensional grid to display critters
+     */
     public static void displayWorld() {
         // TODO: Complete this method
 
@@ -241,7 +255,6 @@ public abstract class Critter {
             System.out.println("");
         }
     }
-
     /**
      * Prints out how many Critters of each type there are on the
      * board.
@@ -263,11 +276,8 @@ public abstract class Critter {
         }
         System.out.println();
     }
-
     public abstract void doTimeStep();
-
     public abstract boolean fight(String oponent);
-
     /* a one-character long string that visually depicts your critter
      * in the ASCII interface */
     public String toString() {
@@ -283,7 +293,6 @@ public abstract class Critter {
         }
         return false;
     }
-
     protected final void walk(int direction) {
         // TODO: Complete this method
         if (moveFlag == false){
@@ -361,8 +370,6 @@ public abstract class Critter {
 
         return (new int[]{tempX, tempY});
     }
-
-
     protected final void reproduce(Critter offspring, int direction) {
         // TODO: Complete this method
         if(energy < Params.MIN_REPRODUCE_ENERGY)
@@ -377,7 +384,6 @@ public abstract class Critter {
 
         babies.add(offspring);
     }
-
     /**
      * The TestCritter class allows some critters to "cheat". If you
      * want to create tests of your Critter model, you can create
