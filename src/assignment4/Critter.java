@@ -40,7 +40,7 @@ public abstract class Critter {
 
     //creating flags to check each critter's turns
     private boolean moveFlag = false;
-    private boolean conflictPhase = false;
+    private static boolean  conflictPhase = false;
 
     /* Gets the package name.  This assumes that Critter and its
      * subclasses are all in the same package. */
@@ -138,6 +138,17 @@ public abstract class Critter {
 
     public static void worldTimeStep() {
         // TODO: Complete this method
+        for (Critter crit : population){
+            crit.doTimeStep();
+        }
+        conflictPhase = true;
+        doEncounters();
+    }
+    private static void doEncounters() {
+        conflictPhase = true;
+
+
+        conflictPhase = false;
     }
 
     public static void displayWorld() {
@@ -200,11 +211,9 @@ public abstract class Critter {
     public String toString() {
         return "";
     }
-
     protected int getEnergy() {
         return energy;
     }
-
     private boolean findCritter(int x, int y, int direction) {
         for(Critter crit : population) {
             if(crit.x_coord == x && crit.y_coord == y && crit.energy > 0)
@@ -291,7 +300,10 @@ public abstract class Critter {
         return (new int[]{tempX, tempY});
     }
 
-
+    private static void genClover() throws InvalidCritterException {
+        for(int i = 0; i < Params.REFRESH_CLOVER_COUNT; i++)
+            createCritter("Clover");
+    }
     protected final void reproduce(Critter offspring, int direction) {
         // TODO: Complete this method
     }
