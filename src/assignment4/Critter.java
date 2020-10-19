@@ -2,18 +2,19 @@
  * CRITTERS Critter.java
  * EE422C Project 4 submission by
  * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * Nik Srinivas
+ * ns29374
+ * 16160
+ * Reza Mohideen
+ * rm54783
+ * 16160
  * Slip days used: <0>
  * Spring 2020
  */
 
 package assignment4;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,6 @@ import java.util.Random;
 public abstract class Critter {
 
     private int energy = 0;
-
     private int x_coord;
     private int y_coord;
 
@@ -68,6 +68,32 @@ public abstract class Critter {
     public static void createCritter(String critter_class_name)
             throws InvalidCritterException {
         // TODO: Complete this method
+        try {
+            String critterName = myPackage + "." + critter_class_name; //how to access the individual critter functions given they all are under the same package
+
+            Class<?> crit_class = Class.forName(critterName);
+            Object crit_object = crit_class.getConstructor().newInstance();
+
+            //using private population
+            population.add((Critter) crit_object);
+            population.get(population.size()-1).energy = Params.START_ENERGY;
+            population.get(population.size()-1).x_coord = Critter.getRandomInt(Params.WORLD_WIDTH);
+            population.get(population.size()-1).y_coord = Critter.getRandomInt(Params.WORLD_HEIGHT);
+        }
+
+        // Error Handling
+        catch (exception | ClassNotFoundException | NoSuchMethodException e){
+            throw new InvalidCritterException(critter_class_name);
+        }
+        catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
