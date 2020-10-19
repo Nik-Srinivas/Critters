@@ -82,7 +82,7 @@ public abstract class Critter {
         }
 
         // Error Handling
-        catch (exception | ClassNotFoundException | NoSuchMethodException e){
+        catch (ClassNotFoundException | NoSuchMethodException e){
             throw new InvalidCritterException(critter_class_name);
         }
         catch (IllegalAccessException e) {
@@ -106,8 +106,21 @@ public abstract class Critter {
      */
     public static List<Critter> getInstances(String critter_class_name)
             throws InvalidCritterException {
-        // TODO: Complete this method
-        return null;
+        List<Critter> instances = new ArrayList<>();
+        Object critterClass = null;
+        try {
+            critterClass = (Critter) Class.forName(myPackage + "." + critter_class_name).getConstructor().newInstance();
+        }
+        catch (ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
+            throw new InvalidCritterException(critter_class_name);
+        }
+        for (Critter c : population) {
+            if(((Critter) critterClass).getClass().isInstance(c)){
+                instances.add(c);
+            }
+        }
+        return instances;
+
     }
 
     /**
