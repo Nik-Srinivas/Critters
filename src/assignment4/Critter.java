@@ -255,6 +255,7 @@ public abstract class Critter {
             System.out.println("");
         }
     }
+
     /**
      * Prints out how many Critters of each type there are on the
      * board.
@@ -276,28 +277,50 @@ public abstract class Critter {
         }
         System.out.println();
     }
+
+    /**
+     * One in-game move, depends on specific critter subclass
+     **/
     public abstract void doTimeStep();
+
+    /**
+     * Depends on specific critter subclass
+     **/
     public abstract boolean fight(String oponent);
-    /* a one-character long string that visually depicts your critter
-     * in the ASCII interface */
+
+    /** a one-character long string that visually depicts your critter
+     * in the ASCII interface **/
     public String toString() {
         return "";
     }
     protected int getEnergy() {
         return energy;
     }
-    private boolean findCritter(int x, int y, int direction) {
+
+    /**
+     * Check to see if there is another critter in the current location
+     *
+     * @param x,y,direction
+     * @return True/False
+     */
+    private boolean findCritter(int x, int y) {
         for(Critter crit : population) {
             if(crit.x_coord == x && crit.y_coord == y && crit.energy > 0)
                 return true;
         }
         return false;
     }
+
+    /**
+     * Moves critter 1 space if it hasn't yet moved this turn
+     *
+     * @param direction -> 8 possible direction on a grid (up, down, left, right and the 4 diagonals
+     */
     protected final void walk(int direction) {
         // TODO: Complete this method
         if (moveFlag == false){
             int[] potentialLocation = move(direction, x_coord, y_coord);
-            if (findCritter(x_coord,y_coord, direction) == false && conflictPhase == false){
+            if (findCritter(x_coord,y_coord) == false && conflictPhase == false){
                 x_coord = potentialLocation[0];
                 y_coord = potentialLocation[1];
             }
@@ -305,12 +328,18 @@ public abstract class Critter {
             energy -= Params.WALK_ENERGY_COST;
         }
     }
+
+    /**
+     * Moves critter 2 spaces if it hasn't yet moved this turn
+     *
+     * @param direction -> 8 possible direction on a grid (up, down, left, right and the 4 diagonals
+     */
     protected final void run(int direction) {
         // TODO: Complete this method
         if (moveFlag == false){
             int[] potentialLocation = move(direction, x_coord, y_coord);
             potentialLocation = move(direction, potentialLocation[0], potentialLocation[1]);
-            if (findCritter(x_coord,y_coord, direction) == false && conflictPhase == false){
+            if (findCritter(x_coord,y_coord) == false && conflictPhase == false){
                 x_coord = potentialLocation[0];
                 y_coord = potentialLocation[1];
             }
@@ -318,6 +347,17 @@ public abstract class Critter {
             energy -= Params.RUN_ENERGY_COST;
         }
     }
+
+    /**
+     * Finds out where the critter "would" move given a direction and starting location.
+     * It doesn't actually move it because it needs to check if there is a critter already there
+     * which it does in the run/walk methods
+     *
+     * @param direction -> 8 possible direction on a grid (up, down, left, right and the 4 diagonals
+     * @param x  -> x coordinate
+     * @param y  -> y coordinate
+     * @return New x and y coordinates in an array[]
+     */
     private int[] move(int direction, int x, int y) {
         int tempX = x;
         int tempY = y;
@@ -370,6 +410,14 @@ public abstract class Critter {
 
         return (new int[]{tempX, tempY});
     }
+
+    /**
+     * Creates an offspring and spawns it in one of the adjacent spaces
+     * Adjusts energies to reflect reproduction
+     *
+     * @param offspring -> new critter
+     * @param direction -> 8 possible direction on a grid (up, down, left, right and the 4 diagonals
+     */
     protected final void reproduce(Critter offspring, int direction) {
         // TODO: Complete this method
         if(energy < Params.MIN_REPRODUCE_ENERGY)
@@ -384,6 +432,7 @@ public abstract class Critter {
 
         babies.add(offspring);
     }
+
     /**
      * The TestCritter class allows some critters to "cheat". If you
      * want to create tests of your Critter model, you can create
