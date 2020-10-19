@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Scanner;
@@ -105,9 +106,10 @@ public class Main {
      */
     private static void commandInterpreter(Scanner kb) {
         //TODO Implement this method
-
+        Critter.clearWorld();
         System.out.print("critters> ");
         String input = kb.nextLine();
+        System.out.println();
         String[] commands = input.trim().split("\\s+");
 
         while (!commands[0].equals("quit")){
@@ -196,10 +198,12 @@ public class Main {
                             Critter.runStats(critList);
                         } else {
                             Class<?> critClass = Class.forName(myPackage + "." + commands[1]);
-                            Method statMethod = critClass.getClass().getDeclaredMethod("runStats", List.class);
+                            Constructor<?> constructor = critClass.getConstructor();
+                            Object new_critter = constructor.newInstance();
+                            Method statMethod = new_critter.getClass().getDeclaredMethod("runStats", List.class);
                             statMethod.invoke(critClass, critList);
                         }
-                    } catch (Exception e) {
+                    } catch (InvalidCritterException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
                         System.out.println("error processing: " + input);
                     }
                 }
