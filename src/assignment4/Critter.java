@@ -300,12 +300,20 @@ public abstract class Critter {
         return (new int[]{tempX, tempY});
     }
 
-    private static void genClover() throws InvalidCritterException {
-        for(int i = 0; i < Params.REFRESH_CLOVER_COUNT; i++)
-            createCritter("Clover");
-    }
+
     protected final void reproduce(Critter offspring, int direction) {
         // TODO: Complete this method
+        if(energy < Params.MIN_REPRODUCE_ENERGY)
+            return;
+        // Assigning energy
+        offspring.energy = energy/2;
+        energy = (int) Math.ceil(energy/2);
+        // Assigning location
+        int[] coordArr = move(direction, x_coord, y_coord);
+        offspring.x_coord = coordArr[0];
+        offspring.y_coord = coordArr[1];
+
+        babies.add(offspring);
     }
 
     /**
