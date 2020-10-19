@@ -47,7 +47,7 @@ public class A4SampleTest {
      * Creates large number of make critters and compare stats after 500 steps
      * Expects all Critters to be dead
      */
-    @Test(timeout = 1000)
+    @Test(timeout = 100000)
     public void KillCritters() {
         Params.WORLD_WIDTH = 20;
         Params.WORLD_HEIGHT = 20;

@@ -106,7 +106,7 @@ public abstract class Critter {
         List<Critter> instances = new ArrayList<>();
         Object critterClass = null;
         try {
-            critterClass = (Critter) Class.forName(myPackage + "." + critter_class_name).getConstructor().newInstance();
+            critterClass = Class.forName(myPackage + "." + critter_class_name).getConstructor().newInstance();
         }
         catch (ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
             throw new InvalidCritterException(critter_class_name);

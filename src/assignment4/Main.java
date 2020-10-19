@@ -205,6 +205,7 @@ public class Main {
                         }
                     } catch (InvalidCritterException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
                         System.out.println("error processing: " + input);
+                        System.out.println(e);
                     }
                 }
             }
@@ -224,6 +225,7 @@ public class Main {
 
             System.out.print("critters> ");
             input = kb.nextLine();
+            System.out.println();
             commands = input.trim().split("\\s+");
         }
 
