@@ -108,32 +108,32 @@ public class Main {
 
         System.out.print("critters> ");
         String input = kb.nextLine();
-        String[] commands = input.split(" ");
+        String[] commands = input.trim().split("\\s+");
 
         while (!commands[0].equals("quit")){
             /////////////////////////////SHOW/////////////////////////////
-            if (commands[0].equals("show")){
-                if (commands.length == 1){
-                    try {
-                        Critter.displayWorld();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            if (commands[0].equals("show")) {
+                if (commands.length == 1) {
+                    Critter.displayWorld();
                 }
                 else {
-                    System.out.println("error processing: " + commands);
+                    System.out.println("error processing: " + input);
                 }
-
             }
             /////////////////////////////STEP/////////////////////////////
             else if (commands[0].equals("step")){
                 if (commands.length > 2){
-                    System.out.println("error processing: " + commands);
+                    System.out.println("error processing: " + input);
                 }
                 else{
                     int count = 1;
                     if(commands.length > 1){
-                        count = Integer.parseInt(commands[1]);
+                        try {
+                            count = Integer.parseInt(commands[1]);
+                        }
+                        catch (NumberFormatException e) {
+                            System.out.println("error processing: " + input);
+                        }
                     }
 
                     for (int i = 0; i < count; i++) {
@@ -163,7 +163,6 @@ public class Main {
             else if (commands[0].equals("create")){
                 if(commands.length > 3) {
                     System.out.println("error processing: " + input);
-                    break;
                 }
                 int n = 0;
                 if (commands.length == 3) {// custom critter value
@@ -216,7 +215,7 @@ public class Main {
             }
             /////////////////////////////Quit Error/////////////////////////////
             else {
-                System.out.println("invalid command: " + commands); // invalid input
+                System.out.println("invalid command: " + input); // invalid input
             }
 
             System.out.print("critters> ");
