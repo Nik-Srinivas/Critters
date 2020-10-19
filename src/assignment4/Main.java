@@ -18,6 +18,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -90,12 +93,16 @@ public class Main {
             kb = new Scanner(System.in); // Use keyboard and console
         }
         commandInterpreter(kb);
-
         System.out.flush();
     }
 
     /* Do not alter the code above for your submission. */
 
+    /**
+     * This function reads in user commands from the keyboard.
+     *
+     * @param kb   -> keyboard Scanner
+     */
     private static void commandInterpreter(Scanner kb) {
         //TODO Implement this method
 
@@ -104,40 +111,108 @@ public class Main {
         String[] commands = input.split(" ");
 
         while (!commands[0].equals("quit")){
+            /////////////////////////////SHOW/////////////////////////////
             if (commands[0].equals("show")){
                 if (commands.length == 1){
                     Critter.displayWorld();
                 }
                 else {
-                    System.out.println(" error processing: " + commands[0]);
+                    System.out.println(" error processing: " + commands);
                 }
 
             }
+            /////////////////////////////STEP/////////////////////////////
             else if (commands[0].equals("step")){
-                System.out.println("step");
-                Critter.worldTimeStep();
-            }
-            else if (commands[0].equals("seed")){
-                System.out.println("seed" + commands[1]);
-            }
-            else if (commands[0].equals("create")){
-                System.out.println("create");
-                try {
-                    Critter.createCritter(commands[1]);
-                } catch (InvalidCritterException e) {
-                    e.printStackTrace();
+                if (commands.length > 2){
+                    System.out.println(" error processing: " + commands);
+                }
+                else{
+                    int count = 1;
+                    if(commands.length > 1){
+                        count = Integer.parseInt(commands[1]);
+                    }
+
+                    for (int i = 0; i < count; i++) {
+                        Critter.worldTimeStep();
+                    }
                 }
             }
+            /////////////////////////////SEED/////////////////////////////
+            else if (commands[0].equals("seed")){
+                if (commands.length <= 2) {
+                    if (commands.length == 1) { // needs second number for seed
+                        System.out.println("error processing: " + input);
+                    }
+                    else {
+                        try {
+                            Critter.setSeed(Integer.parseInt(commands[1]));
+                        } catch (NumberFormatException e) {
+                            System.out.println("error processing: " + input);
+                        }
+                    }
+                }
+                else { //overall error like "seed  *wrong_string*"
+                    System.out.println("error processing: " + input);
+                }
+            }
+            /////////////////////////////CREATE/////////////////////////////
+            else if (commands[0].equals("create")){
+                if(commands.length > 3) {
+                    System.out.println("error processing: " + input);
+                    break;
+                }
+                int n = 0;
+                if (commands.length == 3) {// custom critter value
+                    try {
+                        n = Integer.parseInt(commands[2]);
+                    } catch (NumberFormatException e) {
+                        System.out.println("error processing: " + input);
+                    }
+                }
+                else { //default critter value
+                    n = 1;
+                }
+                try {
+                    for (int i = 0; i < n; i++) {
+                        Critter.createCritter(commands[1]);
+                    }
+                } catch (InvalidCritterException e) {
+                    System.out.println("error processing: " + input);
+                }
+            }
+            /////////////////////////////STATS/////////////////////////////
             else if (commands[0].equals("stats")){
-                System.out.println("create");
-                //Critter.runStats();
+
+                if(commands.length > 2) { // only 1 input for stats
+                    System.out.println("error processing: " + input);
+                }
+                else {
+                    try {
+                        List<Critter> critList = Critter.getInstances(commands[1]);
+                        if (commands[1].equals("Clover") || commands[1].equals("Critter")) {
+                            Critter.runStats(critList);
+                        } else {
+                            Class<?> critClass = Class.forName(myPackage + "." + commands[1]);
+                            Method statMethod = critClass.getClass().getDeclaredMethod("runStats", List.class);
+                            statMethod.invoke(critClass, critList);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("error processing: " + input);
+                    }
+                }
             }
+            /////////////////////////////CLEAR/////////////////////////////
             else if (commands[0].equals("clear")){
-                System.out.println("clear");
-                Critter.clearWorld();
+                if (commands.length == 1) {
+                    Critter.clearWorld();
+                }
+                else {
+                    System.out.println("error processing: " + input);
+                }
             }
+            /////////////////////////////Quit Error/////////////////////////////
             else {
-                System.out.println(" invalid command: " + commands[0]); // invalid input
+                System.out.println(" invalid command: " + commands); // invalid input
             }
 
             System.out.print(" critters> ");
