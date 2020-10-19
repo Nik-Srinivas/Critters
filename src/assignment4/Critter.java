@@ -128,6 +128,7 @@ public abstract class Critter {
      */
     public static void clearWorld() {
         // TODO: Complete this method
+        population.clear();
     }
 
     public static void worldTimeStep() {
