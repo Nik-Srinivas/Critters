@@ -38,6 +38,10 @@ public abstract class Critter {
     private static List<Critter> population = new ArrayList<Critter>();
     private static List<Critter> babies = new ArrayList<Critter>();
 
+    //creating flags to check each critter's turns
+    private boolean moveFlag = false;
+    private boolean conflictPhase = false;
+
     /* Gets the package name.  This assumes that Critter and its
      * subclasses are all in the same package. */
     private static String myPackage;
@@ -74,11 +78,12 @@ public abstract class Critter {
             Class<?> crit_class = Class.forName(critterName);
             Object crit_object = crit_class.getConstructor().newInstance();
 
-            //using private population
+            //setting critter's private variables
             population.add((Critter) crit_object);
             population.get(population.size()-1).energy = Params.START_ENERGY;
             population.get(population.size()-1).x_coord = Critter.getRandomInt(Params.WORLD_WIDTH);
             population.get(population.size()-1).y_coord = Critter.getRandomInt(Params.WORLD_HEIGHT);
+            population.get(population.size()-1).move_flag = false;
         }
 
         // Error Handling
@@ -200,14 +205,92 @@ public abstract class Critter {
         return energy;
     }
 
+    private boolean findCritter(int x, int y, int direction) {
+        for(Critter crit : population) {
+            if(crit.x_coord == x && crit.y_coord == y && crit.energy > 0)
+                return true;
+        }
+        return false;
+    }
+
     protected final void walk(int direction) {
         // TODO: Complete this method
+        if (moveFlag == false){
+            int[] potentialLocation = move(direction, x_coord, y_coord);
+            if (findCritter(x_coord,y_coord, direction) == false && conflictPhase == false){
+                x_coord = potentialLocation[0];
+                y_coord = potentialLocation[1];
+            }
+            moveFlag = true;
+            energy -= Params.WALK_ENERGY_COST;
+        }
     }
-
     protected final void run(int direction) {
         // TODO: Complete this method
-
+        if (moveFlag == false){
+            int[] potentialLocation = move(direction, x_coord, y_coord);
+            potentialLocation = move(direction, potentialLocation[0], potentialLocation[1]);
+            if (findCritter(x_coord,y_coord, direction) == false && conflictPhase == false){
+                x_coord = potentialLocation[0];
+                y_coord = potentialLocation[1];
+            }
+            moveFlag = true;
+            energy -= Params.RUN_ENERGY_COST;
+        }
     }
+    private int[] move(int direction, int x, int y) {
+        int tempX = x;
+        int tempY = y;
+        // east
+        if (direction == 0) {
+            tempX++;
+        }
+        // northeast
+        else if (direction == 1) {
+            tempX++;
+            tempY--;
+        }
+        // north
+        else if (direction == 2) {
+            tempY--;
+        }
+        // northwest
+        else if (direction == 3) {
+            tempX--;
+            tempY--;
+        }
+        // west
+        else if (direction == 4) {
+            tempX--;
+        }
+        // southwest
+        else if (direction == 5) {
+            tempX--;
+            tempY++;
+        }
+        // south
+        else if (direction == 6) {
+            tempY++;
+        }
+        // southeast
+        else {
+            tempX++;
+            tempY++;
+        }
+        //Cases when critter wraps around the map
+        if(tempX < 0)
+            tempX += Params.WORLD_WIDTH;
+        else if(tempX > Params.WORLD_WIDTH-1)
+            tempX -= Params.WORLD_WIDTH;
+
+        if(tempY < 0)
+            tempY += Params.WORLD_HEIGHT;
+        else if(tempY > Params.WORLD_HEIGHT-1)
+            tempY -= Params.WORLD_HEIGHT;
+
+        return (new int[]{tempX, tempY});
+    }
+
 
     protected final void reproduce(Critter offspring, int direction) {
         // TODO: Complete this method
