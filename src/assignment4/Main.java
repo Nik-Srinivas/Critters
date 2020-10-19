@@ -106,7 +106,7 @@ public class Main {
     private static void commandInterpreter(Scanner kb) {
         //TODO Implement this method
 
-        System.out.print(" critters> ");
+        System.out.print("critters> ");
         String input = kb.nextLine();
         String[] commands = input.split(" ");
 
@@ -114,17 +114,21 @@ public class Main {
             /////////////////////////////SHOW/////////////////////////////
             if (commands[0].equals("show")){
                 if (commands.length == 1){
-                    Critter.displayWorld();
+                    try {
+                        Critter.displayWorld();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 else {
-                    System.out.println(" error processing: " + commands);
+                    System.out.println("error processing: " + commands);
                 }
 
             }
             /////////////////////////////STEP/////////////////////////////
             else if (commands[0].equals("step")){
                 if (commands.length > 2){
-                    System.out.println(" error processing: " + commands);
+                    System.out.println("error processing: " + commands);
                 }
                 else{
                     int count = 1;
@@ -212,12 +216,12 @@ public class Main {
             }
             /////////////////////////////Quit Error/////////////////////////////
             else {
-                System.out.println(" invalid command: " + commands); // invalid input
+                System.out.println("invalid command: " + commands); // invalid input
             }
 
-            System.out.print(" critters> ");
+            System.out.print("critters> ");
             input = kb.nextLine();
-            commands = input.split(" ");
+            commands = input.trim().split("\\s+");
         }
 
 
