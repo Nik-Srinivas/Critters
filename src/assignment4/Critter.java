@@ -141,14 +141,24 @@ public abstract class Critter {
         for (Critter crit : population){
             crit.doTimeStep();
         }
-        conflictPhase = true;
+
         doEncounters();
+
+        for(Critter crit : population) {
+            crit.energy -= Params.REST_ENERGY_COST;
+        }
+
+        genC
     }
     private static void doEncounters() {
         conflictPhase = true;
 
 
         conflictPhase = false;
+    }
+    private static void genClover() throws InvalidCritterException {
+        for(int i = 0; i < Params.REFRESH_CLOVER_COUNT; i++)
+            createCritter("Clover");
     }
 
     public static void displayWorld() {
