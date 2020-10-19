@@ -1,19 +1,24 @@
 package assignment4;
 
 public class Critter4 extends Critter{
-    // Critter1 reproduces unless direction = 2, then it runs
+    public boolean fought = true;
+
+    // Critter4 walk if energe < 10, reproduces if energy between 10 - 15, and runs otherwise
     @Override
     public void doTimeStep() {
         int dir = getRandomInt(8);
-        if (dir == 2) {run(dir);}
-        else {reproduce(this,dir);};
+        if (getEnergy() < 10) walk(dir);
+        else if (getEnergy() > 10 && getEnergy() < 15) reproduce(this,dir);
+        else run(dir);
     }
 
     // only fights Critter4
     @Override
     public boolean fight(String oponent) {
-        if (oponent.equals("4")) return true;
-
+        if (oponent.equals("3") && !fought) {
+            fought = true;
+            return true;
+        }
         return false;
     }
 
