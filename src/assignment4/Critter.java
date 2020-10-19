@@ -140,6 +140,7 @@ public abstract class Critter {
         // TODO: Complete this method
         for (Critter crit : population){
             crit.doTimeStep();
+            crit.moveFlag = false;
         }
 
         doEncounters();
@@ -147,9 +148,21 @@ public abstract class Critter {
         for(Critter crit : population) {
             crit.energy -= Params.REST_ENERGY_COST;
         }
-
-        genC
+        try {
+            genClover();
+        } catch (InvalidCritterException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < population.size(); i++) {
+            if (population.get(i).energy <= 0) {
+                population.remove(i);
+                i--;
+            }
+        }
+        population.addAll(babies);
+        babies.clear();
     }
+
     private static void doEncounters() {
         conflictPhase = true;
         for (Critter c1 : population) {
@@ -161,10 +174,10 @@ public abstract class Critter {
                     if (c1.getEnergy() > 0 && c2.getEnergy() > 0) {
                         int power1 = 0, power2 = 0;
                         if (fight1) {
-                            int power1 = getRandomInt(c1.energy);
+                            power1 = getRandomInt(c1.energy);
                         }
                         if (fight2) {
-                            int power2 = getRandomInt(c2.getEnergy());
+                            power2 = getRandomInt(c2.getEnergy());
                         }
 
                         // c1 wins fight
