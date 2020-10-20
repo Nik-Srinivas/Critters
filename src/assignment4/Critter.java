@@ -100,8 +100,8 @@ public abstract class Critter {
      * subclass of Critter, if not, an InvalidCritterException must be
      * thrown.
      *
-     * @param critter_class_name
-     * @throws InvalidCritterException
+     * @param critter_class_name Name of Critter class
+     * @throws InvalidCritterException Bad input string etc
      */
     public static void createCritter(String critter_class_name) throws InvalidCritterException {
         // TODO: Complete this method
@@ -140,7 +140,7 @@ public abstract class Critter {
      * @param critter_class_name What kind of Critter is to be listed.
      *        Unqualified class name.
      * @return List of Critters.
-     * @throws InvalidCritterException
+     * @throws InvalidCritterException e
      */
     public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
         List<Critter> instances = new ArrayList<>();
@@ -246,7 +246,7 @@ public abstract class Critter {
 
     /**
      * Uses Params.REFRESH_CLOVER_COUNT to determine how many clovers to generate
-     * @throws InvalidCritterException
+     * @throws InvalidCritterException e
      */
     private static void genClover() throws InvalidCritterException {
         for(int i = 0; i < Params.REFRESH_CLOVER_COUNT; i++)
@@ -361,7 +361,7 @@ public abstract class Critter {
     /**
      * Moves critter 1 space if it hasn't yet moved this turn
      *
-     * @param direction -> 8 possible direction on a grid (up, down, left, right and the 4 diagonals
+     * @param direction  8 possible direction on a grid (up, down, left, right and the 4 diagonals
      */
     protected final void walk(int direction) {
         // TODO: Complete this method
@@ -379,7 +379,7 @@ public abstract class Critter {
     /**
      * Moves critter 2 spaces if it hasn't yet moved this turn
      *
-     * @param direction -> 8 possible direction on a grid (up, down, left, right and the 4 diagonals
+     * @param direction 8 possible direction on a grid (up, down, left, right and the 4 diagonals
      */
     protected final void run(int direction) {
         // TODO: Complete this method
@@ -400,9 +400,9 @@ public abstract class Critter {
      * It doesn't actually move it because it needs to check if there is a critter already there
      * which it does in the run/walk methods
      *
-     * @param direction -> 8 possible direction on a grid (up, down, left, right and the 4 diagonals
-     * @param x  -> x coordinate
-     * @param y  -> y coordinate
+     * @param direction 8 possible direction on a grid (up, down, left, right and the 4 diagonals
+     * @param x  x coordinate
+     * @param y  y coordinate
      * @return New x and y coordinates in an array[]
      */
     private int[] move(int direction, int x, int y) {
@@ -462,8 +462,8 @@ public abstract class Critter {
      * Creates an offspring and spawns it in one of the adjacent spaces
      * Adjusts energies to reflect reproduction
      *
-     * @param offspring -> new critter
-     * @param direction -> 8 possible direction on a grid (up, down, left, right and the 4 diagonals
+     * @param offspring  new critter
+     * @param direction  8 possible direction on a grid (up, down, left, right and the 4 diagonals
      */
     protected final void reproduce(Critter offspring, int direction) {
         // TODO: Complete this method
