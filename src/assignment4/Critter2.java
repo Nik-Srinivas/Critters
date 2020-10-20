@@ -1,3 +1,18 @@
+/*
+ * CRITTERS Critter2.java
+ * EE422C Project 4 submission by
+ * Replace <...> with your actual data.
+ * Nik Srinivas
+ * ns29374
+ * 16160
+ * Reza Mohideen
+ * rm54783
+ * 16160
+ * Slip days used: <0>
+ * Spring 2020
+ */
+
+
 package assignment4;
 
 public class Critter2 extends Critter{
