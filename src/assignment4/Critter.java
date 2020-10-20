@@ -173,26 +173,30 @@ public abstract class Critter {
                     boolean fight1 = c1.fight(c2.toString());
                     boolean fight2 = c2.fight(c1.toString());
 
-                    if (c1.getEnergy() > 0 && c2.getEnergy() > 0) {
-                        int power1 = 0, power2 = 0;
-                        if (fight1) {
-                            power1 = getRandomInt(c1.energy);
-                        }
-                        if (fight2) {
-                            power2 = getRandomInt(c2.getEnergy());
-                        }
+                    if ((c1 != c2) && (c1.x_coord == c2.x_coord && c1.y_coord == c2.y_coord)) {
+                        if (c1.getEnergy() > 0 && c2.getEnergy() > 0) {
+                            int power1 = 0, power2 = 0;
+                            if (fight1) {
+                                power1 = getRandomInt(c1.energy);
+                            }
+                            if (fight2) {
+                                power2 = getRandomInt(c2.getEnergy());
+                            }
 
-                        // c1 wins fight
-                        if (power1 > power2) {
-                            c1.energy += c2.energy / 2;
-                            c2.energy = 0;
-                        }
-                        // c2 wins fight
-                        else {
-                            c2.energy += c1.energy / 2;
-                            c1.energy = 0;
+                            // c1 wins fight
+                            if (power1 > power2) {
+                                c1.energy += c2.energy / 2;
+                                c2.energy = 0;
+                            }
+                            // c2 wins fight
+                            else {
+                                c2.energy += c1.energy / 2;
+                                c1.energy = 0;
+                            }
                         }
                     }
+//                    if (c1.getEnergy() < 0) population.remove(c1);
+//                    else if (c2.getEnergy() < 0) population.remove(c2);
                 }
             }
         }
@@ -323,7 +327,7 @@ public abstract class Critter {
         // TODO: Complete this method
         if (moveFlag == false){
             int[] potentialLocation = move(direction, x_coord, y_coord);
-            if (findCritter(x_coord,y_coord) == false && conflictPhase == false){
+            if (!(findCritter(potentialLocation[0], potentialLocation[1]) && conflictPhase)) {
                 x_coord = potentialLocation[0];
                 y_coord = potentialLocation[1];
             }
@@ -342,7 +346,7 @@ public abstract class Critter {
         if (moveFlag == false){
             int[] potentialLocation = move(direction, x_coord, y_coord);
             potentialLocation = move(direction, potentialLocation[0], potentialLocation[1]);
-            if (findCritter(x_coord,y_coord) == false && conflictPhase == false){
+            if (!(findCritter(potentialLocation[0], potentialLocation[1]) && conflictPhase)) {
                 x_coord = potentialLocation[0];
                 y_coord = potentialLocation[1];
             }
