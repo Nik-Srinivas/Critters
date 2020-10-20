@@ -23,6 +23,6 @@ public class Critter4 extends Critter{
     }
 
     public String toString() {
-        return "1";
+        return "4";
     }
 }
