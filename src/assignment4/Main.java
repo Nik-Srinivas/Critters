@@ -102,7 +102,7 @@ public class Main {
     /**
      * This function reads in user commands from the keyboard.
      *
-     * @param kb   -> keyboard Scanner
+     * @param kb  This is the keyboard Scanner
      */
     private static void commandInterpreter(Scanner kb) {
         //TODO Implement this method
